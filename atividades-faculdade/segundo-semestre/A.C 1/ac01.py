@@ -1,11 +1,3 @@
-# INSIRA ABAIXO OS NOMES DOS ALUNOS DO GRUPO (máximo 5 alunos)
-# ALUNO 1: Igor Ruiz de França
-# ALUNO 2: Igor Guilherme da Paz Provensi
-# ALUNO 3: Robson Ferreira Puert
-# ALUNO 4: Yasmim Vieira Barbosa
-# ALUNO 5:
-
-
 """
 Escreva uma função com o nome pertence, que recebe como argumentos de entrada
 uma tupla e um item e retorna True, se o item estiver armazenado na tupla, e

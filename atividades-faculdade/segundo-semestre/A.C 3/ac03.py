@@ -1,14 +1,6 @@
 # PROGRAMAÇÃO ORIENTADA A OBJETOS
 # ATIVIDADE CONTÍNUA 03
 
-# INSIRA ABAIXO O NOME DOS ALUNOS DO GRUPO
-# ALUNO 1: Beatrici Ramos Feliciano
-# ALUNO 2: Igor Guilherme da Paz Provensi
-# ALUNO 3: Igor Ruiz de França
-# ALUNO 4: Robson Ferreira Puert
-# ALUNO 5: Yasmim Barbosa Vieira
-
-
 class Escola:
     def __init__(self, nome):
         self.nome = nome

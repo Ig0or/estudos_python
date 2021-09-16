@@ -1,13 +1,3 @@
-# ATIVIDADE CONTÍNUA 05
-
-# NOMES DOS ALUNOS: (MÁXIMO 6):
-# ALUNO 1: Beatrici Ramos Feliciano
-# ALUNO 2: Igor Guilherme da Paz Provensi
-# ALUNO 3: Igor Ruiz de França
-# ALUNO 4: Robson Ferreira Puert
-# ALUNO 5: Yasmim Barbosa Vieira
-
-
 import sqlalchemy
 
 from sqlalchemy import Column, Integer, String, Float, desc
