@@ -8,6 +8,19 @@ class CalcIPv4:
         self.prefixo = prefixo
 
         self._set_broadcast()
+        self._set_rede()
+
+    @property
+    def rede(self):
+        return self._rede
+
+    @property
+    def broadcast(self):
+        return self._broadcast
+
+    @property
+    def numero_ips(self):
+        return self._get_numeros_ips()
 
     @property
     def ip(self):
@@ -26,6 +39,7 @@ class CalcIPv4:
         if not self._valida_ip(valor):
             raise ValueError('IP inválido.')
         self._ip = valor
+        self._ip_bin = self._ip_to_bin(valor)
 
     @mascara.setter
     def mascara(self, valor):
@@ -82,4 +96,15 @@ class CalcIPv4:
 
     def _set_broadcast(self):
         host_bits = 32 - self.prefixo
+        self._broadcast_bin = self._ip_bin[0:self.prefixo] + (host_bits * '1')
+        self._broadcast = self._bin_to_ip(self._broadcast_bin)
+        return self._broadcast
 
+    def _set_rede(self):
+        host_bits = 32 - self.prefixo
+        self._rede_bin = self._ip_bin[0:self.prefixo] + (host_bits * '0')
+        self._rede = self._bin_to_ip(self._rede_bin)
+        return self._broadcast
+
+    def _get_numeros_ips(self):
+        return 2 ** (32 - self.prefixo)
