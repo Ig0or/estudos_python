@@ -233,27 +233,26 @@ O exercicio 7 √© opcional e bastante dificil. Se quiser, desligue os testes e v√
 
 
 def evolucoes_proximas(nome):
-    # nome = nome.lower()
-    # url = f"http://pokeapi.co/api/v2/pokemon-species/{nome}"
-    # retorno = requests.get(url)
+    nome = nome.lower()
+    url = f"http://pokeapi.co/api/v2/pokemon-species/{nome}"
+    retorno = requests.get(url)
 
-    # if retorno.status_code != 200:
-    #     raise PokemonNaoExisteException()
-    # else:
-    #     pokemon = retorno.json()
-    #     if pokemon["evolution_chain"]:
-    #         url_evolution = requests.get(pokemon["evolution_chain"]["url"])
-    #     else:
-    #         return []
+    if retorno.status_code != 200:
+        raise PokemonNaoExisteException()
+    else:
+        pokemon = retorno.json()
+        if pokemon["evolution_chain"]:
+            url_evolution = requests.get(pokemon["evolution_chain"]["url"])
+        else:
+            return []
 
-    #     json_evolution = url_evolution.json()
+        json_evolution = url_evolution.json()
 
-    #     evolucoes = []
-    #     for evolucao in json_evolution["chain"]["evolves_to"]:
-    #         evolucoes.append(evolucao["species"]["name"])
-    #     print(evolucoes)
-    #     return evolucoes
-    pass
+        evolucoes = []
+        for evolucao in json_evolution["chain"]["evolves_to"]:
+            evolucoes.append(evolucao["species"]["name"])
+        print(evolucoes)
+        return evolucoes
 
 
 """

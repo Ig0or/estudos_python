@@ -17,3 +17,4 @@ for root, dirs, files in os.walk(caminho_original):
         if '.rdp' in file:
             shutil.move(old_file_path, new_file_path)
             print(f'Arquivo {file} movido com sucesso! ')
+        
