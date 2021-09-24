@@ -1,4 +1,4 @@
-cpf = '37971641818'
+cpf = '37871819976'
 novo_cpf = cpf[:-2]
 
 reverso = 10
