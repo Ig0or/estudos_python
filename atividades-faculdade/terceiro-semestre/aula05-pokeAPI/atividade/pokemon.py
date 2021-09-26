@@ -250,8 +250,33 @@ def evolucoes_proximas(nome):
 
         evolucoes = []
         for evolucao in json_evolution["chain"]["evolves_to"]:
-            evolucoes.append(evolucao["species"]["name"])
-        print(evolucoes)
+            segunda_evolucao = evolucao["species"]["name"]
+
+            # verifica se existe terceira evolucao
+            if evolucao["evolves_to"]:
+                terceira_evolucao = evolucao["evolves_to"][0]["species"]["name"]
+            else:
+                terceira_evolucao = None
+
+            # se o pokemon já estiver na terceira evolucao, retorna lista vazia
+            if nome == terceira_evolucao:
+                return []
+
+            # se o pokemon estiver na segunda evolucao, inclue a terceira na lista
+            if nome == segunda_evolucao:
+                if len(json_evolution["chain"]["evolves_to"]) > 1:
+                    return []
+                for pokemons in evolucao["evolves_to"]:
+                    evolucoes.append(pokemons["species"]["name"])
+
+                # evolucoes.append(terceira_evolucao)
+            else:
+                evolucoes.append(segunda_evolucao)
+
+            # para casos de evolucoes complexas, onde nao tem proxima evolucao.
+            if None in evolucoes:
+                return []
+
         return evolucoes
 
 

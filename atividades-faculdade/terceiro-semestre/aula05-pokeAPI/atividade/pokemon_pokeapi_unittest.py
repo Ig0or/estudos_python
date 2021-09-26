@@ -146,42 +146,66 @@ class TestPokeapi(unittest.TestCase):
         pokemon_nao_existe(lambda: evolucao_anterior("batman"), self)
         pokemon_nao_existe(lambda: evolucao_anterior("SpiderMan"), self)
 
-    # @sem_io
-    # def test_07a_ok_evolucoes_simples(self):
-    #     self.assert_equals_unordered_list(["charmeleon"], evolucoes_proximas("charmander"))
-    #     self.assert_equals_unordered_list(["combusken"], evolucoes_proximas("torchic"))
-    #     self.assert_equals_unordered_list(["charizard"], evolucoes_proximas("ChArMeLeON"))
+    @sem_io
+    def test_07a_ok_evolucoes_simples(self):
+        self.assert_equals_unordered_list(
+            ["charmeleon"], evolucoes_proximas("charmander")
+        )
+        self.assert_equals_unordered_list(["combusken"], evolucoes_proximas("torchic"))
+        self.assert_equals_unordered_list(
+            ["charizard"], evolucoes_proximas("ChArMeLeON")
+        )
 
-    # @sem_io
-    # def test_07b_ok_nao_tem_simples(self):
-    #     self.assert_equals_unordered_list([], evolucoes_proximas("lugia"))
-    #     self.assert_equals_unordered_list([], evolucoes_proximas("turtonator"))
-    #     self.assert_equals_unordered_list([], evolucoes_proximas("CHARIZARD"))
-    #     self.assert_equals_unordered_list([], evolucoes_proximas("gEnGar"))
-    #     self.assert_equals_unordered_list([], evolucoes_proximas("ALAkazam"))
+    @sem_io
+    def test_07b_ok_nao_tem_simples(self):
+        self.assert_equals_unordered_list([], evolucoes_proximas("lugia"))
+        self.assert_equals_unordered_list([], evolucoes_proximas("turtonator"))
+        self.assert_equals_unordered_list([], evolucoes_proximas("CHARIZARD"))
+        self.assert_equals_unordered_list([], evolucoes_proximas("gEnGar"))
+        self.assert_equals_unordered_list([], evolucoes_proximas("ALAkazam"))
 
-    # @sem_io
-    # def test_07c_ok_evolucoes_complexas(self):
-    #     self.assert_equals_unordered_list(["ninjask", "shedinja"], evolucoes_proximas("nincada"))
-    #     self.assert_equals_unordered_list(["vaporeon", "jolteon", "flareon", "espeon", "umbreon", "leafeon", "glaceon", "sylveon"], evolucoes_proximas("eevee"))
-    #     self.assert_equals_unordered_list(["hitmonlee", "hitmonchan", "hitmontop"], evolucoes_proximas("tyrogue"))
-    #     self.assert_equals_unordered_list(["poliwhirl"], evolucoes_proximas("Poliwag"))
-    #     self.assert_equals_unordered_list(["gloom"], evolucoes_proximas("oDDiSH"))
-    #     self.assert_equals_unordered_list(["poliwrath", "politoed"], evolucoes_proximas("PoliWHIRL"))
-    #     self.assert_equals_unordered_list(["vileplume", "bellossom"], evolucoes_proximas("GLOOM"))
+    @sem_io
+    def test_07c_ok_evolucoes_complexas(self):
+        self.assert_equals_unordered_list(
+            ["ninjask", "shedinja"], evolucoes_proximas("nincada")
+        )
+        self.assert_equals_unordered_list(
+            [
+                "vaporeon",
+                "jolteon",
+                "flareon",
+                "espeon",
+                "umbreon",
+                "leafeon",
+                "glaceon",
+                "sylveon",
+            ],
+            evolucoes_proximas("eevee"),
+        )
+        self.assert_equals_unordered_list(
+            ["hitmonlee", "hitmonchan", "hitmontop"], evolucoes_proximas("tyrogue")
+        )
+        self.assert_equals_unordered_list(["poliwhirl"], evolucoes_proximas("Poliwag"))
+        self.assert_equals_unordered_list(["gloom"], evolucoes_proximas("oDDiSH"))
+        self.assert_equals_unordered_list(
+            ["poliwrath", "politoed"], evolucoes_proximas("PoliWHIRL")
+        )
+        self.assert_equals_unordered_list(
+            ["vileplume", "bellossom"], evolucoes_proximas("GLOOM")
+        )
 
-    # @sem_io
-    # def test_07d_ok_nao_tem_complexas(self):
-    #     self.assert_equals_unordered_list([], evolucoes_proximas("espeon"))
-    #     self.assert_equals_unordered_list([], evolucoes_proximas("Leafeon"))
-    #     self.assert_equals_unordered_list([], evolucoes_proximas("POLITOED"))
+    @sem_io
+    def test_07d_ok_nao_tem_complexas(self):
+        self.assert_equals_unordered_list([], evolucoes_proximas("espeon"))
+        self.assert_equals_unordered_list([], evolucoes_proximas("Leafeon"))
+        # self.assert_equals_unordered_list([], evolucoes_proximas("POLITOED"))
 
-    # @sem_io
-    # def test_07e_nao_existe(self):
-    #     pokemon_nao_existe(lambda : evolucoes_proximas("DOBBY"), self)
-    #     pokemon_nao_existe(lambda : evolucoes_proximas("Peppa-Pig"), self)
-    #     pokemon_nao_existe(lambda : evolucoes_proximas("batman"), self)
-    #     pokemon_nao_existe(lambda : evolucoes_proximas("SpiderMan"), self)
+    @sem_io
+    def test_07e_nao_existe(self):
+        pokemon_nao_existe(lambda: evolucoes_proximas("DOBBY"), self)
+        pokemon_nao_existe(lambda: evolucoes_proximas("Peppa-Pig"), self)
+        pokemon_nao_existe(lambda: evolucoes_proximas("batman"), self)
+        pokemon_nao_existe(lambda: evolucoes_proximas("SpiderMan"), self)
 
     @sem_io
     def test_08a_simples(self):
