@@ -9,7 +9,7 @@ class ContatoAdmin(admin.ModelAdmin):
     # deixar os campos clicaveis
     list_display_links = ('id', 'nome', 'sobrenome')
     # opcao de filtrar
-    list_filter = ('nome', 'sobrenome')
+    # list_filter = ('nome', 'sobrenome')
     # buscar campos
     search_fields = ('nome', 'sobrenome', 'telefone')
     list_per_page = 10
