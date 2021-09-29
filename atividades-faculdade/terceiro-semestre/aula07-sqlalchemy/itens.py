@@ -17,3 +17,4 @@ def consultar_item(id_i):
             return item
         else:
             raise ItemNaoExisteException()
+

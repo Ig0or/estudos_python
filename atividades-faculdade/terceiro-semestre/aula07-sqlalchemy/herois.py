@@ -4,6 +4,8 @@ from sqlalchemy import create_engine
 # novo nome. Não mexa dentro dela.
 # Escreva os imports (acima dela)
 # E suas funcoes (depois dela)
+
+
 class HeroiNaoExisteException(Exception):
     pass
 
@@ -33,3 +35,14 @@ def consultar_heroi(id_h):
             return dict(heroi)
         else:
             raise HeroiNaoExisteException()
+
+
+def consultar_heroi_por_nome(nome):
+    with engine.connect() as con:
+        consulta = """SELECT * FROM heroi WHERE nome = :nome"""
+        bd = con.execute(consulta, nome=nome)
+        heroi = bd.fetchone()
+        if heroi:
+            return dict(heroi)
+        else:
+            raise HeroiNaoExisteException

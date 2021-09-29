@@ -1,6 +1,17 @@
+import shutil
+import hashlib
+import unittest
+import random
+import itens_do_heroi
+import itens
+from itens import ItemNaoExisteException
+import herois
+from herois import HeroiNaoExisteException
 from sqlalchemy import create_engine
 from sqlalchemy.sql import text
+from math import floor
 
+engine = create_engine("sqlite:///rpg.db")
 
 """
 1) Examine o banco de dados no site https://sqliteonline.com/.
@@ -38,8 +49,6 @@ tanto nele quanto nos outros arquivos, e será com ele que voce rodará os teste
 já temos um arquivo herois, que foi importado
 abaixo
 """
-from herois import HeroiNaoExisteException
-import herois
 
 """
 Parte 1: Consultas
@@ -77,8 +86,6 @@ Já existe um arquivo itens.py,
 que está importado abaixo
 
 """
-from itens import ItemNaoExisteException
-import itens
 
 """
 Ex3
@@ -111,7 +118,16 @@ no arquivo herois
 
 
 def heroi_pronto_por_nome(nomeHeroi):
-    pass
+    heroi = herois.consultar_heroi_por_nome(nomeHeroi)
+    itens = itens_do_heroi.itens_em_uso_por_nome_do_heroi(nomeHeroi)
+    heroi['vida'] = heroi['fisico'] * 10
+    if itens:
+        for item in itens:
+            heroi['fisico'] += item['fisico']
+            heroi['magia'] += item['magia']
+            heroi['agilidade'] += item['agilidade']
+            heroi['vida'] += item['fisico'] * 10
+    return heroi
 
 
 """
@@ -144,7 +160,17 @@ Repare que a funcao recebe dicionários, e nem fala com o SQL
 
 
 def atacar_com_fisico(atacante, defensor):
-    pass
+    agilidade = floor(atacante['agilidade'] / defensor['agilidade'])
+
+    if agilidade > 1:
+        for ataque in range(agilidade):
+            defensor['vida'] -= atacante['fisico']
+    else:
+        defensor['vida'] -= atacante['fisico']
+
+    if defensor['vida'] < 0:
+        defensor['vida'] = 0
+    return defensor
 
 
 """
@@ -173,7 +199,17 @@ Repare que a vida nunca pode ficar negativa. O mínimo é 0.
 
 
 def atacar_com_magia(atacante, defensor):
-    pass
+    agilidade = floor(atacante['agilidade'] / defensor['agilidade'])
+
+    if agilidade > 1:
+        for ataque in range(agilidade):
+            defensor['vida'] -= atacante['magia']
+    else:
+        defensor['vida'] -= atacante['magia']
+
+    if defensor['vida'] < 0:
+        defensor['vida'] = 0
+    return defensor
 
 
 """
@@ -185,7 +221,6 @@ Ele representa um relacionamento. Diz quais herois tem quais itens.
 
 Verifique e se familiarize com a tabela ItemDoHeroi do banco de dados
 """
-import itens_do_heroi
 
 """
 Ex08
@@ -242,7 +277,12 @@ fazer acessos a mais
 
 
 def lista_itens_em_uso_do_heroi(idHeroi):
-    pass
+    itens_heroi = itens_do_heroi.itens_do_heroi(idHeroi)
+    itens_em_uso = []
+    for item in itens_heroi:
+        if item['emUso'] == 1:
+            itens_em_uso.append(item)
+    return itens_em_uso
 
 
 """
@@ -424,7 +464,6 @@ Agora, pode fazer tres coisas:
 O uso das funcoes a seguir é opcional
 """
 fazer_prints = False
-import random
 
 
 def mensagem_de_ataque_fisico(dano, nome_atacante, nome_defensor):
@@ -471,9 +510,6 @@ Fim das funcoes de uso opcional
 Inicio dos testes
 """
 
-import unittest
-import hashlib
-
 
 class TestStringMethods(unittest.TestCase):
     def test_ex01_heroi_existe(self):
@@ -496,7 +532,8 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(herois.consultar_heroi(3)["nome"], "harry")
 
     def test_ex02a_consultar_heroi_invalido(self):
-        self.assertRaises(HeroiNaoExisteException, herois.consultar_heroi, 50329)
+        self.assertRaises(HeroiNaoExisteException,
+                          herois.consultar_heroi, 50329)
         self.assertRaises(HeroiNaoExisteException, herois.consultar_heroi, 50)
         #                 xxxxxxxxxxxxxxxxxxxxxxx oooooooooooooooooooooo aa
         # diz que tem que ocorrer uma excessão (xxxxxx), quando eu chamar aa funcao (ooooooooooo) com a id 50 (aa)
@@ -630,7 +667,8 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(chun["vida"], 63)
 
     def test_ex21_criar_overpower(self):
-        self.assertRaises(OverpowerException, criar_heroi, "freeza", 10, 10, 10)
+        self.assertRaises(OverpowerException, criar_heroi,
+                          "freeza", 10, 10, 10)
         self.assertRaises(OverpowerException, criar_heroi, "legolas", 20, 2, 2)
 
     def test_ex22_nome_para_id_item(self):
@@ -642,7 +680,8 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(confortavel["nome"], "confortavel")
 
     def test_ex23_criar_item(self):
-        itens.criar_item(tipo="varinha", nome="mestra", fisico=0, agilidade=0, magia=8)
+        itens.criar_item(tipo="varinha", nome="mestra",
+                         fisico=0, agilidade=0, magia=8)
         idMestra = itens.nome_para_id_item("mestra")
         mestra = itens.consultar_item(idMestra)
         self.assertEqual(mestra["nome"], "mestra")
@@ -667,7 +706,8 @@ class TestStringMethods(unittest.TestCase):
         # chun está usando o item e tb fizemos a nova consulta
 
     def test_ex25_heroi_nao_pode_usar_dois_itens_do_mesmo_tipo(self):
-        itens.criar_item(tipo="espada", nome="vorpal", fisico=10, agilidade=2, magia=0)
+        itens.criar_item(tipo="espada", nome="vorpal",
+                         fisico=10, agilidade=2, magia=0)
         chun = heroi_pronto_por_nome("chun-li")
         idVorpal = itens.nome_para_id_item("vorpal")
         vorpal = itens.consultar_item(idVorpal)
@@ -676,9 +716,6 @@ class TestStringMethods(unittest.TestCase):
         self.assertRaises(
             HeroiJaUsaEsseTipoDeItemException, colocar_item_em_uso, chun, vorpal
         )
-
-
-import shutil
 
 
 def runTests():
