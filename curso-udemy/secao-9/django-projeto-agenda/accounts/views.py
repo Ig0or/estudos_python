@@ -1,5 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.core.validators import validate_email
+from django.contrib.auth.models import User
 
 # Create your views here.
 
@@ -25,8 +27,42 @@ def cadastro(request):
 
     if not nome or not sobrenome or not email or not usuario or not senha or not senha2:
         messages.error(request, 'Nenhum campo pode ficar vazio.')
+        return render(request, 'accounts/cadastro.html')
 
-    return render(request, 'accounts/cadastro.html')
+    try:
+        validate_email(email)
+    except:
+        messages.error(request, 'Email inválido..')
+        return render(request, 'accounts/cadastro.html')
+
+    if len(senha) < 6:
+        messages.error(request, 'Senha muito curta..')
+        return render(request, 'accounts/cadastro.html')
+
+    if len(usuario) < 6:
+        messages.error(request, 'Usuario muito curto..')
+        return render(request, 'accounts/cadastro.html')
+
+    if senha != senha2:
+        messages.error(request, 'Senhas não conferem..')
+        return render(request, 'accounts/cadastro.html')
+
+    if User.objects.filter(username=usuario).exists():
+        messages.error(request, 'Usuario já existe..')
+        return render(request, 'accounts/cadastro.html')
+
+    if User.objects.filter(email=email).exists():
+        messages.error(request, 'Email já existe..')
+        return render(request, 'accounts/cadastro.html')
+
+    messages.success(request, 'Registrado com sucesso! '
+                              'Agora faça login.')
+
+    user = User.objects.create_user(username=usuario, email=email, password=senha,
+                                    first_name=nome, last_name=sobrenome)
+
+    user.save()
+    return redirect('login')
 
 
 def dashboard(request):
