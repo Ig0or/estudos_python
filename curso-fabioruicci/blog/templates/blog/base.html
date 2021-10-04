@@ -1,7 +1,10 @@
+{% load static %}
+
 <!doctype html>
 <html>
 <head>
     <title>{% block title %}{%endblock%}</title>
+    <link rel="stylesheet" href="{% static 'css/blog.css' %}">
 </head>
 <body>
     <header>
@@ -9,7 +12,7 @@
     </header>
 
     <main>
-        {% block content%}
+        {% block content %}
         {% endblock %}
     </main>
 
