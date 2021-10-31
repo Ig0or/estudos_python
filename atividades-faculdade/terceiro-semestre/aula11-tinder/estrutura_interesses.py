@@ -41,13 +41,13 @@ database['interesses'] = {
 def adiciona_interesse(id_interessado, id_alvo_de_interesse): #200, 15
     pessoa1 = localiza_pessoa(id_interessado)
     pessoa2 = localiza_pessoa(id_alvo_de_interesse)
-    try:
-        if pessoa1['sexo'] not in pessoa2['buscando'] and pessoa2['sexo'] not in pessoa1['buscando']:
-            raise IncompatibleError
+    if 'sexo' in pessoa1 and 'sexo' in pessoa2:
+        if pessoa1['sexo'] in pessoa2['buscando'] and pessoa2['sexo'] in pessoa1['buscando']:
+            return database['interesses'][id_interessado].append(id_alvo_de_interesse)    
         else:
-            database['interesses'][id_interessado].append(id_alvo_de_interesse)    
-    except:
-        database['interesses'][id_interessado].append(id_alvo_de_interesse)
+            raise IncompatibleError
+    else:
+        return database['interesses'][id_interessado].append(id_alvo_de_interesse)
 
 def consulta_interesses(id_interessado):
     localiza_pessoa(id_interessado)
